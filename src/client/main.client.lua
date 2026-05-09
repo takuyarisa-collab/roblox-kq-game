@@ -3,14 +3,16 @@ print("Client running")
 local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
-local TweenService = game:GetService("TweenService")
+
+local REACH_ANIMATION_ID = "rbxassetid://136843786405051"
 
 print("Client before events")
 local explodeEvent = ReplicatedStorage:WaitForChild("ExplodeEvent")
 local setBombEvent = ReplicatedStorage:WaitForChild("SetBombEvent")
 print("Client events ready")
 
-local function playToolLikeAction()
+local function playReachAnimation()
+	print("Play reach animation")
 	local player = Players.LocalPlayer
 	local character = player and player.Character
 	if not character then
@@ -22,33 +24,20 @@ local function playToolLikeAction()
 		return
 	end
 
-	local motor = nil
-	if humanoid.RigType == Enum.HumanoidRigType.R6 then
-		local torso = character:FindFirstChild("Torso")
-		if torso then
-			motor = torso:FindFirstChild("Right Shoulder")
-		end
+	local animation = Instance.new("Animation")
+	animation.AnimationId = REACH_ANIMATION_ID
+
+	local animator = humanoid:FindFirstChildOfClass("Animator")
+	local track
+	if animator then
+		track = animator:LoadAnimation(animation)
 	else
-		local upperTorso = character:FindFirstChild("UpperTorso")
-		if upperTorso then
-			motor = upperTorso:FindFirstChild("RightShoulder")
-		end
+		track = humanoid:LoadAnimation(animation)
 	end
 
-	if not (motor and motor:IsA("Motor6D")) then
-		return
+	if track then
+		track:Play()
 	end
-
-	local original = motor.Transform
-	local up = CFrame.Angles(math.rad(-55), 0, 0) * CFrame.new(0, 0, -0.15)
-
-	local tIn = TweenService:Create(motor, TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { Transform = original * up })
-	tIn:Play()
-
-	task.delay(0.12, function()
-		local tOut = TweenService:Create(motor, TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.In), { Transform = original })
-		tOut:Play()
-	end)
 end
 
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
@@ -58,7 +47,7 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
 		explodeEvent:FireServer()
 	elseif input.KeyCode == Enum.KeyCode.F then
 		print("F pressed")
-		playToolLikeAction()
+		playReachAnimation()
 		print("Fire SetBombEvent")
 		setBombEvent:FireServer()
 	end
