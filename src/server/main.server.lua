@@ -3,20 +3,8 @@ print("Bomb server script loaded")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
--- RemoteEventをコード側で作る
-local explodeEvent = ReplicatedStorage:FindFirstChild("ExplodeEvent")
-if not explodeEvent then
-	explodeEvent = Instance.new("RemoteEvent")
-	explodeEvent.Name = "ExplodeEvent"
-	explodeEvent.Parent = ReplicatedStorage
-end
-
-local setBombEvent = ReplicatedStorage:FindFirstChild("SetBombEvent")
-if not setBombEvent then
-	setBombEvent = Instance.new("RemoteEvent")
-	setBombEvent.Name = "SetBombEvent"
-	setBombEvent.Parent = ReplicatedStorage
-end
+local explodeEvent = ReplicatedStorage:WaitForChild("ExplodeEvent")
+local setBombEvent = ReplicatedStorage:WaitForChild("SetBombEvent")
 
 local currentBomb = nil
 local explosionRadius = 10

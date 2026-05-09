@@ -55,7 +55,9 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
 	if input.KeyCode == Enum.KeyCode.E then
 		explodeEvent:FireServer()
 	elseif input.KeyCode == Enum.KeyCode.F then
+		print("F pressed")
 		playToolLikeAction()
+		print("Fire SetBombEvent")
 		setBombEvent:FireServer()
 	end
 end)

@@ -6,6 +6,12 @@
       "$className": "ReplicatedStorage",
       "Shared": {
         "$path": "src/shared"
+      },
+      "ExplodeEvent": {
+        "$className": "RemoteEvent"
+      },
+      "SetBombEvent": {
+        "$className": "RemoteEvent"
       }
     },
     "StarterPlayer": {
