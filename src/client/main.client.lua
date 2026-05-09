@@ -5,8 +5,10 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 
+print("Client before events")
 local explodeEvent = ReplicatedStorage:WaitForChild("ExplodeEvent")
 local setBombEvent = ReplicatedStorage:WaitForChild("SetBombEvent")
+print("Client events ready")
 
 local function playToolLikeAction()
 	local player = Players.LocalPlayer
